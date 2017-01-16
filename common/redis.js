@@ -2,7 +2,7 @@
 * @Author: limingyuan
 * @Date:   2016-12-29 16:45:24
 * @Last Modified by:   limingyuan
-* @Last Modified time: 2016-12-30 14:54:10
+* @Last Modified time: 2017-01-16 17:18:17
 */
 
 import redis from 'redis'
@@ -14,11 +14,11 @@ class Redis{
 		this.client = redis.createClient(this.config);
 	}
 
-	hmget(key){
+	hmget(key,field){
 		return new Promise((resolve,reject)=>{
-			this.client.hmget(key,(err,res)=>{
+			this.client.hmget(key,field,(err,res)=>{
 				if(err){
-					reject(err);
+					return reject(err);
 				}
 				resolve(res);
 			})
@@ -29,7 +29,7 @@ class Redis{
 		return new Promise((resolve,reject)=>{
 			this.client.hmset(key,value,(err,res)=>{
 				if(err){
-					reject(err);
+					return reject(err);
 				}
 				resolve(res);
 			})
@@ -40,7 +40,7 @@ class Redis{
 		return new Promise((resolve,reject)=>{
 			this.client.llen(key,(err,res)=>{
 				if(err){
-					reject(err);
+					return reject(err);
 				}
 				resolve(res);
 			})
@@ -51,7 +51,7 @@ class Redis{
 		return new Promise((resolve,reject)=>{
 			this.client.lpush(key,value,(err,res)=>{
 				if(err){
-					reject(err);
+					return reject(err);
 				}
 				resolve(res);
 			});
@@ -62,7 +62,7 @@ class Redis{
 		return new Promise((resolve,reject)=>{
 			this.client.rpop(key,(err,res)=>{
 				if(err){
-					reject(err);
+					return reject(err);
 				}
 				resolve(res);
 			});
@@ -73,7 +73,18 @@ class Redis{
 		return new Promise((resolve,reject)=>{
 			this.client.del(key,(err,res)=>{
 				if(err){
-					reject(err);
+					return reject(err);
+				}
+				resolve(res);
+			});
+		});
+	}
+
+	exists(key){
+		return new Promise((resolve,reject)=>{
+			this.client.exists(key,(err,res)=>{
+				if(err){
+					return reject(err);
 				}
 				resolve(res);
 			});

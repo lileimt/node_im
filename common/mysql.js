@@ -2,7 +2,7 @@
 * @Author: limingyuan
 * @Date:   2016-12-29 16:45:09
 * @Last Modified by:   limingyuan
-* @Last Modified time: 2016-12-29 17:04:49
+* @Last Modified time: 2017-01-04 17:28:24
 */
 
 import mysql from 'mysql'
@@ -20,13 +20,13 @@ class DB{
 			pool.getConnection((err,conn)=>{
 				if(err){
 					console.log(`mysql connect err ${err}`);
-					reject(err);
+					return reject(err);
 				}
 				conn.query(sql,(err,results)=>{
 					if(err){
 						console.log(`mysql query err ${err}`);
 						conn.release();
-						reject(err);
+						return reject(err);
 					}
 					conn.release();
 					resolve(results);
